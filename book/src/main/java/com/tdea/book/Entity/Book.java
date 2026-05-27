@@ -2,12 +2,7 @@ package com.tdea.book.Entity;
 
 
 import com.tdea.book.Entity.Enums.BookType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +21,7 @@ public class Book {
     private Long id;
 
     private String name;
+    @Column(unique = true, nullable = false)
     private String isbnNumber;
     private LocalDate publishDate;
     private Double price;

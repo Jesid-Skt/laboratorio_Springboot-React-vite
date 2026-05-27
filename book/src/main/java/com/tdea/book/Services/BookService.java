@@ -24,13 +24,25 @@ public class BookService {
     }
 
     public Book save(Book book) {
+
+        if (bookRepository.existsByIsbnNumber(book.getIsbnNumber())) {
+            throw new RuntimeException("ISBN already exists");
+        }
+
         return bookRepository.save(book);
     }
 
     public Book update(Long id, Book book) {
-        if (!bookRepository.existsById(id)) {
-            throw new RuntimeException("Book not found");
+
+        Book existing = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found"));
+
+        // validar si el ISBN ya existe en otro registro
+        if (bookRepository.existsByIsbnNumber(book.getIsbnNumber())
+                && !existing.getIsbnNumber().equals(book.getIsbnNumber())) {
+            throw new RuntimeException("ISBN already exists");
         }
+
         book.setId(id);
         return bookRepository.save(book);
     }
